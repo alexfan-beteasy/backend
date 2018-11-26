@@ -3,7 +3,10 @@ using dotnet_code_challenge.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+
+[assembly: InternalsVisibleTo("dotnet_code_challenge.Test")]
 
 namespace dotnet_code_challenge
 {

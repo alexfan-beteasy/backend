@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using dotnet_code_challenge.Model;
 using dotnet_code_challenge.Repositories;
@@ -15,9 +15,14 @@ namespace dotnet_code_challenge.Handlers
             this.horseRepositories = horseRepositories;
         }
 
-        public Task<IEnumerable<Horse>> GetSortedHorsesAsync()
+        public async Task<IEnumerable<Horse>> GetSortedHorsesAsync()
         {
-            throw new NotImplementedException();
+            var horses = Enumerable.Empty<Horse>();
+            foreach(var horseRepository in horseRepositories)
+            {
+                horses = horses.Concat((await horseRepository.LoadAllHorsesAsync()) ?? Enumerable.Empty<Horse>());
+            }
+            return horses.OrderBy(horse => horse.Price).ToList();
         }
     }
 }
